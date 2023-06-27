@@ -13,6 +13,16 @@ const router = createRouter({
       name: "login",
       component: () => import("./views/Login.vue"),
     },
+    {
+      path: "/add-order",
+      name: "addOrder",
+      component: () => import("./views/AddOrder.vue"),
+    },
+    {
+      path: "/add-customer",
+      name: "addCustomer",
+      component: () => import("./views/AddCustomer.vue"),
+    },
   ],
 });
 
