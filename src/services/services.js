@@ -1,11 +1,6 @@
 import axios from "axios";
 
-var baseurl = "http://localhost:3200/";
-// if (process.env.NODE_ENV === "development") {
-//   baseurl = "http://localhost/courierapi/";
-// } else {
-//   baseurl = "/courierapi/";
-// }
+var baseurl = "http://ec2-54-185-125-9.us-west-2.compute.amazonaws.com:3200/";
 
 const apiClient = axios.create({
   baseURL: baseurl,
