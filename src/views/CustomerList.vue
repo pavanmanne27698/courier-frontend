@@ -81,7 +81,7 @@ function closeSnackBar() {
     <div class="container" style="margin-top: 20px">
       <div style="display: flex; justify-content: center;">
         <h3>Customers</h3>
-      <a class="btn btn-danger create" :href="[getUrl() + 'add-customer']" style="margin-left:10px;" >Add Customer</a>
+        <router-link to="/add-customer" class="headline mb-2">Add Customer</router-link>
       </div>
       <br/>
       <input class="col-12 form-control searchbar" type="search" placeholder="Search Customer" aria-label="Search" v-model="search"/><br/>
