@@ -113,8 +113,8 @@ function closeSnackBar() {
                       <td>{{ customer.address.charAt(1) }}</td>
                       <td>
                           <div class="btn-group" role="group" aria-label="Basic example">
-                              <img class="button-image" :src="[getUrl()+'/courier-frontend/edit.png']" width="20" height="20" />
-                              <img class="button-image" :src="[getUrl()+'/courier-frontend/delete.png']" width="20" height="20" />
+                              <img class="button-image" :src="[getUrl()+'edit.png']" width="20" height="20" />
+                              <img class="button-image" :src="[getUrl()+'delete.png']" width="20" height="20" />
                               <!-- <img class="button-image" src="/delete.png" width="20" height="20" @click="deleteCustomer(customer.id,index)" /> -->
                           </div>         
                       </td>
