@@ -5,6 +5,8 @@ import { useRouter } from "vue-router";
 import UserServices from "../services/UserServices.js";
 import CustomerServices from "../services/CustomerServices.js";
 import Loading from "../components/Loading.vue";
+import LeftNavbar from "../components/LeftNavbar.vue";
+
 
 const router = useRouter();
 const snackbar = ref({
@@ -21,6 +23,9 @@ const customer = ref({
   apartmentNumber: "",
 });
 const isLoading = ref(false);
+const address = ref({ street:"",avenue: ""})
+const streets = [ 1,2,3,4,5,6,7]
+const avenues = ["A","B","C","D","E","F","G"]
 onMounted(async () => {
 
 });
@@ -50,19 +55,19 @@ async function addCustomer() {
         snackbar.value.color = "error";
         snackbar.value.text = "Mobile is empty!";
   }
-  else if(customer.value.address === "") {
+  else if(address.value.avenue == "" || address.value.street == "") {
         snackbar.value.value = true;
         snackbar.value.color = "error";
-        snackbar.value.text = "Address is empty!";
+        snackbar.value.text = "Address Street/Avenue is empty!";
   }
-    else if(customer.value.apartmentNumber === "") {
+  else if(customer.value.apartmentNumber === "") {
         snackbar.value.value = true;
         snackbar.value.color = "error";
         snackbar.value.text = "Apartment number is empty!";
   }
   else {
     isLoading.value = true
-    await CustomerServices.addCustomer(customer.value)
+    await CustomerServices.addCustomer({...customer.value,address: address.value.street+address.value.avenue})
         .then((response) => {
             snackbar.value.value = true;
             snackbar.value.color = "green";
@@ -82,56 +87,71 @@ async function addCustomer() {
 
 <template>
   <v-container>
-    <div id="body">
-      <v-card class="rounded-lg elevation-5">
-        <div style="display:flex;" class="heading">
-          <v-card-title class="headline mb-2">Create Customer </v-card-title>
-        </div>
-        <Loading v-if="isLoading" />
-        <v-card-text v-else>
+    <div class="flex flex-1">
+      <LeftNavbar/>
+      <div id="body">
+        <v-card class="rounded-lg elevation-5">
+          <div style="display:flex;" class="heading">
+            <v-card-title class="headline mb-2">Create Customer </v-card-title>
+          </div>
+          <Loading v-if="isLoading" />
+          <v-card-text v-else>
+            <div class="mb-3">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="firstName" v-model="customer.firstName"/>
+          </div>
           <div class="mb-3">
-          <label for="firstName" class="form-label">First Name</label>
-          <input type="text" class="form-control" id="firstName" v-model="customer.firstName"/>
-        </div>
-        <div class="mb-3">
-          <label for="lastName" class="form-label">Last Name</label>
-          <input type="text" class="form-control" id="lastName" v-model="customer.lastName"/>
-        </div>
+            <label for="lastName" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="lastName" v-model="customer.lastName"/>
+          </div>
+            <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" id="email" v-model="customer.email"/>
+          </div>
           <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input type="text" class="form-control" id="email" v-model="customer.email"/>
-        </div>
-        <div class="mb-3">
-          <label for="mobile" class="form-label">Mobile</label>
-          <input type="text" class="form-control" id="mobile" v-model="customer.mobile"/>
-        </div>
-        <div class="mb-3">
-          <label for="Address" class="form-label">Address</label>
-          <input type="text" class="form-control" id="Address" v-model="customer.address"/>
-        </div>   
-         <div class="mb-3">
-          <label for="Apartment" class="form-label">Apartment Number</label>
-          <input type="text" class="form-control" id="Apartment" v-model="customer.apartmentNumber"/>
-        </div>   
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn variant="flat" color="primary" @click="addCustomer()">Create</v-btn>
-        </v-card-actions>
-      </v-card>
-      <v-snackbar v-model="snackbar.value" rounded="pill">
-        {{ snackbar.text }}
+            <label for="mobile" class="form-label">Mobile</label>
+            <input type="text" class="form-control" id="mobile" v-model="customer.mobile"/>
+          </div>
+          <div class="row" style="display:flex;justify-content:space-between;">
+            <div class="col-6">
+              <label for="street" class="form-label">Street</label>
+              <select class="form-control" id="dropdown" v-model="address.street" >
+                <option value="">Select Street</option>
+                <option v-for="street in streets" :key="street" :value="street"> Street - {{street}}</option>
+              </select>
+            </div>
+            <div class="col-6">
+                <label for="avenue" class="form-label">Avenue</label>
+                <select class="form-control" id="dropdown" v-model="address.avenue">
+                <option value="">Select Avenue</option>
+                <option v-for="avenue in avenues" :key="avenue" :value="avenue"> Avenue - {{avenue}}</option>
+              </select>
+            </div>
+          </div>  
+          <div class="mb-3" style="margin-top:10px;">
+            <label for="Apartment" class="form-label">Apartment Number</label>
+            <input type="text" class="form-control" id="Apartment" v-model="customer.apartmentNumber"/>
+          </div>   
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn variant="flat" color="primary" @click="addCustomer()">Create</v-btn>
+          </v-card-actions>
+        </v-card>
+        <v-snackbar v-model="snackbar.value" rounded="pill">
+          {{ snackbar.text }}
 
-        <template v-slot:actions>
-          <v-btn
-            :color="snackbar.color"
-            variant="text"
-            @click="closeSnackBar()"
-          >
-            Close
-          </v-btn>
-        </template>
-      </v-snackbar>
+          <template v-slot:actions>
+            <v-btn
+              :color="snackbar.color"
+              variant="text"
+              @click="closeSnackBar()"
+            >
+              Close
+            </v-btn>
+          </template>
+        </v-snackbar>
+      </div>
     </div>
   </v-container>
 </template>
@@ -145,5 +165,8 @@ async function addCustomer() {
 .heading {
     margin-top: 10px;
     justify-content: space-between;
+}
+#body {
+  margin-top: 20px;
 }
 </style>

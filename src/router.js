@@ -6,7 +6,7 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: () => import("./views/Login.vue"),
+      component: () => import("./views/Dashboard.vue"),
     },
     {
       path: "/login",
@@ -22,6 +22,21 @@ const router = createRouter({
       path: "/add-customer",
       name: "addCustomer",
       component: () => import("./views/AddCustomer.vue"),
+    },
+    {
+      path: "/users",
+      name: "users",
+      component: () => import("./views/UserList.vue"),
+    },
+    {
+      path: "/customers",
+      name: "customers",
+      component: () => import("./views/CustomerList.vue"),
+    },
+    {
+      path: "/orders",
+      name: "orders",
+      component: () => import("./views/OrderList.vue"),
     },
   ],
 });
