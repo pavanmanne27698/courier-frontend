@@ -148,8 +148,8 @@ const deleteUser = async(id,index) => {
                       <td v-else>No</td>
                       <td>
                           <div class="btn-group" role="group">
-                            <img class="button-image" :src="[getUrl()+'/courier-frontend/edit.png']" width="20" height="20" />
-                            <img class="button-image" :src="[getUrl()+'/courier-frontend/delete.png']" width="20" height="20" />
+                            <img class="button-image" :src="[getUrl()+'edit.png']" width="20" height="20" />
+                            <img class="button-image" :src="[getUrl()+'delete.png']" width="20" height="20" />
                           </div>         
                       </td>
                       </tr>
