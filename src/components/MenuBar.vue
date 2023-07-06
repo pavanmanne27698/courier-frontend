@@ -25,7 +25,7 @@ function logout() {
     });
   localStorage.removeItem("user");
   user.value = null;
-  router.push({ name: "home" });
+  router.push({ name: "login" });
 }
 </script>
 
