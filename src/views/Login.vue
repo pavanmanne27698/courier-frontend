@@ -11,7 +11,7 @@ const snackbar = ref({
   color: "",
   text: "",
 });
-const selectedRole = ref("Admin")
+const selectedRole = ref("Clerk")
 const user = ref({
   firstName: "",
   lastName: "",
@@ -20,7 +20,7 @@ const user = ref({
   mobile: ""
 });
 
-const roleOptions =  [ "Admin","Clerk","Courier Boy"]
+const roleOptions =  [ "Clerk","Courier Boy"]
 
 onMounted(async () => {
   if (localStorage.getItem("user") !== null) {

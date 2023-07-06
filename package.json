@@ -7,6 +7,8 @@
     "preview": "cross-env vite preview"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.7.14",
+    "@heroicons/vue": "^2.0.18",
     "@mdi/font": "^7.0.96",
     "axios": "^1.1.3",
     "bootstrap": "^5.3.0",

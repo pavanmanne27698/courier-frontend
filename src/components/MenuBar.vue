@@ -7,7 +7,7 @@ import UserServices from "../services/UserServices";
 const router = useRouter();
 
 const user = ref(null);
-const title = ref("Online Courier");
+const title = ref("ACME Courier");
 const logoURL = ref("");
 
 onMounted(() => {
@@ -45,10 +45,10 @@ function logout() {
         {{ title }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
-       <v-btn v-if="user !== null" class="mx-2" :to="{ name: 'addCustomer' }">
+       <v-btn v-if="user !== null && user.role =='2'" class="mx-2" :to="{ name: 'addCustomer' }">
         Create Customer
       </v-btn>
-      <v-btn v-if="user !== null" class="mx-2" :to="{ name: 'addOrder' }">
+      <v-btn v-if="user !== null && user.role =='2'" class="mx-2" :to="{ name: 'addOrder' }">
         Create Order
       </v-btn>
       <v-btn v-if="user === null" class="mx-2" :to="{ name: 'login' }">

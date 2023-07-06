@@ -1,11 +1,16 @@
 import apiClient from "./services";
 
 export default {
-  getUser() {
-    return apiClient.get("users");
+  getUser(id) {
+    if(!id)
+      return apiClient.get("users");
+    return apiClient.get("users/"+id)
   },
   addUser(user) {
     return apiClient.post("users", user);
+  },
+  updateUser(user) {
+    return apiClient.put("users/" + user.id, user);
   },
   loginUser(user) {
     console.log(user);
@@ -23,4 +28,10 @@ export default {
   logoutUser() {
     return apiClient.post("logout");
   },
+  getUsers() {
+    return apiClient.get("users/")
+  },
+  deleteUser(userId) {
+    return apiClient.delete("users/" + userId);
+  }
 };
