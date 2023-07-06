@@ -91,8 +91,8 @@ async function addCustomer() {
       <LeftNavbar/>
       <div id="body">
         <v-card class="rounded-lg elevation-5">
-          <div style="display:flex;" class="heading">
-            <v-card-title class="headline mb-2">Create Customer </v-card-title>
+           <div style="display:flex;" class="heading">
+            <router-link to="/add-customer" class="headline mb-2">Add Customer</router-link>
           </div>
           <Loading v-if="isLoading" />
           <v-card-text v-else>
