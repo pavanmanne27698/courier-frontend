@@ -17,7 +17,7 @@ const snackbar = ref({
   color: "",
   text: "",
 });
-const sort = ref(0)
+const sorting = ref(0)
 const search = ref("")
 const options = [
   { value: 0, label: 'All' },
@@ -52,7 +52,7 @@ async function getUsers() {
     });
 }
  watch(
-      sort,
+      sorting,
       (newValue, _) => {
         var sortedUsers = actualResponse.value
         if (newValue != 0) {
@@ -82,7 +82,7 @@ async function getUsers() {
             users.value = sortedUsers;
         } else {
           users.value = actualResponse.value
-          sort.value = 0
+          sorting.value = 0
         }
 
       }
@@ -113,7 +113,7 @@ const deleteUser = async(id,index) => {
       <br/>
       <div style="display:flex;margin-top:5px;">
         <div>
-          <select class="form-control" id="dropdown" style="margin-left:20px;" v-model="sort">
+          <select class="form-control" id="dropdown" style="margin-left:20px;" v-model="sorting">
             <option v-for="(option, index) in options" :key="index" :value="option.value">
               {{ option.label }}
             </option>
@@ -148,8 +148,8 @@ const deleteUser = async(id,index) => {
                       <td v-else>No</td>
                       <td>
                           <div class="btn-group" role="group">
-                            <img class="button-image" :src="[getUrl()+'/edit.png']" width="20" height="20" />
-                            <img class="button-image" :src="[getUrl()+'/delete.png']" width="20" height="20" />
+                            <img class="button-image" :src="[getUrl()+'/courier-frontend/edit.png']" width="20" height="20" />
+                            <img class="button-image" :src="[getUrl()+'/courier-frontend/delete.png']" width="20" height="20" />
                           </div>         
                       </td>
                       </tr>
