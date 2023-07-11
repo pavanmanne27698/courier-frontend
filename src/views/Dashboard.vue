@@ -15,6 +15,6 @@ onMounted(async () => {
 <template>
       <div class="flex flex-1">
         <LeftNavbar/>
-        <p>Dashboard Comes here</p>
+        <p>Dashboard comes here</p>
     </div>
 </template>
