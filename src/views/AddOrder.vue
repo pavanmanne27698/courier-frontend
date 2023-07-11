@@ -147,7 +147,7 @@ async function addOrder() {
       <div id="body">
         <v-card class="rounded-lg elevation-5">
           <div style="display:flex;" class="heading">
-            <v-card-title class="headline mb-2">Create Order </v-card-title>
+            <v-card-title class="headline mb-2">Add Order </v-card-title>
           </div>
           <Loading v-if="isLoading" />
           <v-card-text v-else>
