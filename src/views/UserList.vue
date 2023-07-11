@@ -17,14 +17,15 @@ const snackbar = ref({
   color: "",
   text: "",
 });
-const sorting = ref(0)
+const sort = ref(0)
 const search = ref("")
 const options = [
   { value: 0, label: 'All' },
-  { value: 1, label: 'Available' },
-  { value: 2, label: 'Not Available' },
+  { value: 1, label: 'Available users' },
+  { value: 2, label: 'Unavailable users' },
   { value: 3, label: 'Clerk' },
   { value: 4, label: 'Delivery Boy' },
+  { value: 5, label: 'Admin' },
 ];
 onMounted(async () => {
   user.value = JSON.parse(localStorage.getItem("user"));
@@ -36,9 +37,12 @@ onMounted(async () => {
 });
 
 const setSnackbar = (text,color="error") => {
-    snackbar.value = true;
-    snackbar.color = color;
-    snackbar.text = text;
+    snackbar.value.value = true;
+    snackbar.value.color = color;
+    snackbar.value.text = text;
+}
+function goToUpdatePage(id) {
+  router.push({ name: "updateUser",params: { id } })
 }
 
 async function getUsers() {
@@ -52,18 +56,20 @@ async function getUsers() {
     });
 }
  watch(
-      sorting,
+      sort,
       (newValue, _) => {
         var sortedUsers = actualResponse.value
         if (newValue != 0) {
           if(newValue ==1) {
-            sortedUsers = actualResponse.value.sort(user => user.isAvailable == 1);
+            sortedUsers = actualResponse.value.filter(user => user.isAvailable == 1);
           } else if(newValue == 2) {
-            sortedUsers = actualResponse.value.sort(user => user.isAvailable == 0);
+            sortedUsers = actualResponse.value.filter(user => user.isAvailable == 0);
           } else if(newValue == 3) {
-            sortedUsers = actualResponse.value.sort(user => user.role == 2);
+            sortedUsers = actualResponse.value.filter(user => user.role == 2);
           } else if(newValue == 4) {
-            sortedUsers = actualResponse.value.sort(user => user.role == 3);
+            sortedUsers = actualResponse.value.filter(user => user.role == 3);
+          } else if(newValue == 5) {
+            sortedUsers = actualResponse.value.filter(user => user.role == 1);
           }
         } 
         users.value = sortedUsers
@@ -73,7 +79,7 @@ async function getUsers() {
       search,
       (newValue, _) => {
         if(newValue){
-            const sortedUsers = users.value.sort(user => 
+            const sortedUsers = users.value.filter(user => 
             user.firstName.toLowerCase().includes(newValue.toLowerCase()) ||
             user.lastName.toLowerCase().includes(newValue.toLowerCase()) ||
             user.email.toLowerCase().includes(newValue.toLowerCase()) ||
@@ -82,7 +88,7 @@ async function getUsers() {
             users.value = sortedUsers;
         } else {
           users.value = actualResponse.value
-          sorting.value = 0
+          sort.value = 0
         }
 
       }
@@ -91,11 +97,11 @@ const deleteUser = async(id,index) => {
     await UserServices.deleteUser(id)
     .then((res) => {
       users.value.splice(index, 1);
-      snackbar.value = setSnackbar("User is deleted!","green")
+      setSnackbar("User is deleted!","green")
     })
     .catch((error) => {
       console.log(error);
-      snackbar.value = setSnackbar(error.response.data.message)
+      setSnackbar(error.response.data.message)
     });
 }
 
@@ -108,14 +114,12 @@ const deleteUser = async(id,index) => {
     <div class="container" style="margin-top: 20px">
       <div style="display: flex; justify-content: center;">
         <h3>Users</h3>
-         <div style="display:flex;" class="heading">
-    <router-link to="/add-user" class="headline mb-2">Add User</router-link>
-  </div>
+        <a class="btn btn-danger create" :href="[getUrl() + '/add-user']">Add User</a>
       </div>
       <br/>
       <div style="display:flex;margin-top:5px;">
         <div>
-          <select class="form-control" id="dropdown" style="margin-left:20px;" v-model="sorting">
+          <select class="form-control" id="dropdown" style="margin-left:20px;" v-model="sort">
             <option v-for="(option, index) in options" :key="index" :value="option.value">
               {{ option.label }}
             </option>
@@ -150,8 +154,8 @@ const deleteUser = async(id,index) => {
                       <td v-else>No</td>
                       <td>
                           <div class="btn-group" role="group">
-                            <img class="button-image" :src="[getUrl()+'edit.png']" width="20" height="20" />
-                            <img class="button-image" :src="[getUrl()+'delete.png']" width="20" height="20" />
+                            <img class="button-image" :src="[getUrl()+'/edit.png']" width="20" height="20" @click="goToUpdatePage(id)" />
+                            <img class="button-image" :src="[getUrl()+'/delete.png']" width="20" height="20" @click="deleteUser(user.id,index)"  />
                           </div>         
                       </td>
                       </tr>
@@ -212,5 +216,8 @@ const deleteUser = async(id,index) => {
 .searchbar {
   margin-left: 3%;
   width: 70%;
+}
+.button-image {
+  cursor: pointer;
 }
 </style>
