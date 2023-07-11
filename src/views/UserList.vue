@@ -104,6 +104,9 @@ const deleteUser = async(id,index) => {
       setSnackbar(error.response.data.message)
     });
 }
+function goToCreatePage(id) {
+  router.push({ name: "addUser" })
+}
 
 </script>
 
@@ -114,7 +117,7 @@ const deleteUser = async(id,index) => {
     <div class="container" style="margin-top: 20px">
       <div style="display: flex; justify-content: center;">
         <h3>Users</h3>
-        <a class="btn btn-danger create" :href="[getUrl() + '/add-user']">Add User</a>
+        <a class="btn btn-danger create" @click="goToCreatePage()">Add User</a>
       </div>
       <br/>
       <div style="display:flex;margin-top:5px;">

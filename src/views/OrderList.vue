@@ -70,6 +70,10 @@ function closeSnackBar() {
 function goToUpdatePage(id) {
   router.push({ name: "updateOrder",params: { id } })
 }
+function goToCreatePage(id) {
+  router.push({ name: "addOrder" })
+}
+
  watch(
       sort,
       (newValue, _) => {
@@ -112,7 +116,7 @@ function goToUpdatePage(id) {
     <div class="container" style="margin-top: 20px">
       <div style="display: flex; justify-content: center;">
         <h3>Orders</h3>
-      <a class="btn btn-danger create" :href="[getUrl() + '/add-order']" style="margin-left:10px;" >Add Order</a>
+      <a class="btn btn-danger create" @click="goToCreatePage()" style="margin-left:10px;" >Add Order</a>
       </div>
       <br/>
       <div style="display:flex;margin-top:5px;margin-bottom:20px;">

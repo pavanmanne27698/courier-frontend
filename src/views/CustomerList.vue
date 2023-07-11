@@ -35,6 +35,9 @@ const setSnackbar = (text,color="error") => {
 function goToUpdatePage(id) {
   router.push({ name: "updateCustomer",params: { id } })
 }
+function goToCreatePage(id) {
+  router.push({ name: "addCustomer" })
+}
 
 async function getCustomers() {
   await CustomerServices.getCustomers()
@@ -83,7 +86,7 @@ function closeSnackBar() {
     <div class="container" style="margin-top: 20px">
       <div style="display: flex; justify-content: center;">
         <h3>Customers</h3>
-      <a class="btn btn-danger create" :href="[getUrl() + '/add-customer']" style="margin-left:10px;" >Add Customer</a>
+      <a class="btn btn-danger create" @click="goToCreatePage()" style="margin-left:10px;" >Add Customer</a>
       </div>
       <br/>
       <input class="col-12 form-control searchbar" type="search" placeholder="Search Customer" aria-label="Search" v-model="search"/><br/>
