@@ -40,11 +40,6 @@ const routes = {
     name: "Dashboard"
     },
     {
-    path: "/users",
-    icon: getUrl()+"/admin.png",
-    name: "Users"
-    },
-    {
       path: "/orders",
       icon: getUrl()+"/order.png",
       name: "Orders"
