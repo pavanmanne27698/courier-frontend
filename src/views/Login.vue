@@ -3,6 +3,7 @@ import { onMounted } from "vue";
 import { ref, toRaw } from "vue";
 import { useRouter } from "vue-router";
 import UserServices from "../services/UserServices.js";
+// import CompanyServices from "../services/CompanyServices.js";
 
 const router = useRouter();
 const isCreateAccount = ref(false);
@@ -12,6 +13,7 @@ const snackbar = ref({
   text: "",
 });
 const selectedRole = ref("Clerk")
+const selectedCompany = ref()
 const user = ref({
   firstName: "",
   lastName: "",
@@ -19,6 +21,7 @@ const user = ref({
   password: "",
   mobile: ""
 });
+// const companies = ref([]);
 
 const roleOptions =  [ "Clerk","Courier Boy"]
 
@@ -26,14 +29,26 @@ onMounted(async () => {
   if (localStorage.getItem("user") !== null) {
     router.push({ name: "home" });
   }
+  // await getCompanies();
 });
 
+// async function getCompanies() {
+//   await CompanyServices.getCompanies()
+//     .then((response) => {
+//       companies.value = response.data;
+//       console.log("respons",response.data)
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+// }
 async function createAccount() {
-  await UserServices.addUser({...user.value, role: selectedRole.value === "Admin" ? 1 : selectedRole.value === "Clerk" ? 2 : 3})
+  await UserServices.addUser({...user.value, role: selectedRole.value === "Admin" ? 1 : selectedRole.value === "Clerk" ? 2 : 3, companyId: 1})
     .then((res) => {
       snackbar.value.value = true;
       snackbar.value.color = "green";
       snackbar.value.text = "Account created successfully!";
+      isCreateAccount.value = false;
       router.push({ name: "login" });
     })
     .catch((error) => {
@@ -140,6 +155,15 @@ function closeSnackBar() {
                 :items="roleOptions"
                 required
               ></v-select>
+         <!-- <v-select
+            v-model="selectedCompany"
+            label="Company"
+            :items="companies"
+            item-text="name"
+            item-value="id"
+            required
+          >
+          </v-select> -->
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
