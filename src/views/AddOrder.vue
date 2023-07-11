@@ -97,7 +97,7 @@ async function addOrder() {
       pickupLocation: "Street "+pickupLocation.value.street+", Avenue "+pickupLocation.value.avenue ,
       deliveryLocation: "Street "+deliveryLocation.value.street+", Avenue "+deliveryLocation.value.avenue
     }
-    await OrderServices.addOrder({...order.value,...orderDetails.value,...location, placedByUserId: user.value.id})
+    await OrderServices.addOrder({...order.value,...orderDetails.value,...location, placedByUserId: user.value.id,companyId: user.value.companyId})
         .then((response) => {
             snackbar.value.value = true;
             snackbar.value.color = "green";
@@ -152,50 +152,50 @@ async function addOrder() {
           <Loading v-if="isLoading" />
           <v-card-text v-else>
             <div class="mb-3">
-            <label for="first_name" class="form-label">Pickup Time</label>
-            <input type="text" class="form-control" id="first_name" v-model="order.pickupTime"/>
+            <label for="pickup_time" class="form-label">Pickup Time</label>
+            <input type="datetime-local" class="form-control form-control-lg" id="pickup_time" v-model="order.pickupTime"/>
           </div>
           <div class="mb-3">
               <label for="user" class="form-label">Pickup Customer </label>
-              <select class="form-control" id="dropdown" v-model="pickupUser">
+              <select class="form-control form-control-lg" id="dropdown" v-model="pickupUser">
                 <option value="">Select Customer</option>
                 <option v-for="customer in customers" :key="customer.id" :value="customer"> {{customer.lastName}} {{customer.firstName}}</option>
               </select>
           </div>
           <div class="row" style="display:flex;justify-content:space-between;" v-if="order.pickupCustomerId">
             <div class="col-6">
-              <label for="Apartment" class="form-label">Pickup Street</label>
-              <select class="form-control" id="dropdown" v-model="pickupLocation.street" >
+              <label for="pickup" class="form-label">Pickup Street</label>
+              <select class="form-control form-control-lg" id="dropdown" v-model="pickupLocation.street" >
                 <option value="">Select Street</option>
                 <option v-for="street in streets" :key="street" :value="street"> Street - {{street}}</option>
               </select>
             </div>
             <div class="col-6">
-                <label for="Apartment" class="form-label">Pickup Avenue</label>
-                <select class="form-control" id="dropdown" v-model="pickupLocation.avenue">
+                <label for="pickup" class="form-label">Pickup Avenue</label>
+                <select class="form-control form-control-lg" id="dropdown" v-model="pickupLocation.avenue">
                 <option value="">Select Avenue</option>
                 <option v-for="avenue in avenues" :key="avenue" :value="avenue"> Avenue - {{avenue}}</option>
               </select>
             </div>
           </div>
           <div class="mb-3" style="margin-top:10px;">
-              <label for="user" class="form-label">Delivery Customer</label>
-              <select class="form-control" id="dropdown" v-model="deliveryUser">
+              <label for="delivery" class="form-label">Delivery Customer</label>
+              <select class="form-control form-control-lg" id="dropdown" v-model="deliveryUser">
                 <option value="">Select Customer</option>
                 <option v-for="customer in customers" :key="customer.id" :value="customer"> {{customer.lastName}} {{customer.firstName}}</option>
               </select>
           </div>
           <div class="row" style="display:flex;justify-content:space-between;" v-if="order.deliveryCustomerId">
             <div class="col-6">
-              <label for="Apartment" class="form-label">Delivery Street</label>
-              <select class="form-control" id="dropdown" v-model="deliveryLocation.street" >
+              <label for="delivery" class="form-label">Delivery Street</label>
+              <select class="form-control form-control-lg" id="dropdown" v-model="deliveryLocation.street" >
                 <option value="">Select Street</option>
                 <option v-for="street in streets" :key="street" :value="street"> Street - {{street}}</option>
               </select>
             </div>
             <div class="col-6">
-                <label for="Apartment" class="form-label">Delivery Avenue</label>
-                <select class="form-control" id="dropdown" v-model="deliveryLocation.avenue">
+                <label for="delivery" class="form-label">Delivery Avenue</label>
+                <select class="form-control form-control-lg" id="dropdown" v-model="deliveryLocation.avenue">
                 <option value="">Select Avenue</option>
                 <option v-for="avenue in avenues" :key="avenue" :value="avenue"> Avenue - {{avenue}}</option>
               </select>

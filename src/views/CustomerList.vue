@@ -28,9 +28,12 @@ onMounted(async () => {
 });
 
 const setSnackbar = (text,color="error") => {
-    snackbar.value = true;
-    snackbar.color = color;
-    snackbar.text = text;
+    snackbar.value.value = true;
+    snackbar.value.color = color;
+    snackbar.value.text = text;
+}
+function goToUpdatePage(id) {
+  router.push({ name: "updateCustomer",params: { id } })
 }
 
 async function getCustomers() {
@@ -45,17 +48,16 @@ async function getCustomers() {
 }
 
 const deleteCustomer = async(id,index) => {
-    // setSnackbar("Customer is deleted!","green")
 
-    // await CustomerServices.deleteCustomer(id)
-    // .then((res) => {
-    //   users.value.splice(index, 1);
-    //   setSnackbar("Customer is deleted successfully!","green")
-    // })
-    // .catch((error) => {
-    //   console.log(error);
-    //   setSnackbar(error.response.data.message)
-    // });
+    await CustomerServices.deleteCustomer(id)
+    .then((res) => {
+      customers.value.splice(index, 1);
+      setSnackbar("Customer is deleted successfully!","green")
+    })
+    .catch((error) => {
+      console.log(error);
+      setSnackbar(error.response.data.message)
+    });
 }
 function closeSnackBar() {
   snackbar.value.value = false;
@@ -81,7 +83,7 @@ function closeSnackBar() {
     <div class="container" style="margin-top: 20px">
       <div style="display: flex; justify-content: center;">
         <h3>Customers</h3>
-        <router-link to="/add-customer" class="headline mb-2">Add Customer</router-link>
+      <a class="btn btn-danger create" :href="[getUrl() + '/add-customer']" style="margin-left:10px;" >Add Customer</a>
       </div>
       <br/>
       <input class="col-12 form-control searchbar" type="search" placeholder="Search Customer" aria-label="Search" v-model="search"/><br/>
@@ -113,9 +115,8 @@ function closeSnackBar() {
                       <td>{{ customer.address.charAt(1) }}</td>
                       <td>
                           <div class="btn-group" role="group" aria-label="Basic example">
-                              <img class="button-image" :src="[getUrl()+'edit.png']" width="20" height="20" />
-                              <img class="button-image" :src="[getUrl()+'delete.png']" width="20" height="20" />
-                              <!-- <img class="button-image" src="/delete.png" width="20" height="20" @click="deleteCustomer(customer.id,index)" /> -->
+                              <img class="button-image" :src="[getUrl()+'/edit.png']" width="20" height="20" @click="goToUpdatePage(customer.id)" />
+                              <img class="button-image" src="/delete.png" width="20" height="20" @click="deleteCustomer(customer.id,index)" />
                           </div>         
                       </td>
                       </tr>

@@ -91,38 +91,38 @@ async function addCustomer() {
       <LeftNavbar/>
       <div id="body">
         <v-card class="rounded-lg elevation-5">
-           <div style="display:flex;" class="heading">
-            <router-link to="/add-customer" class="headline mb-2">Add Customer</router-link>
+          <div style="display:flex;" class="heading">
+            <v-card-title class="headline mb-2">Add Customer </v-card-title>
           </div>
           <Loading v-if="isLoading" />
           <v-card-text v-else>
             <div class="mb-3">
             <label for="firstName" class="form-label">First Name</label>
-            <input type="text" class="form-control" id="firstName" v-model="customer.firstName"/>
+            <input type="text" class="form-control form-control-lg" id="firstName" v-model="customer.firstName"/>
           </div>
           <div class="mb-3">
             <label for="lastName" class="form-label">Last Name</label>
-            <input type="text" class="form-control" id="lastName" v-model="customer.lastName"/>
+            <input type="text" class="form-control form-control-lg" id="lastName" v-model="customer.lastName"/>
           </div>
             <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="text" class="form-control" id="email" v-model="customer.email"/>
+            <input type="text" class="form-control form-control-lg" id="email" v-model="customer.email"/>
           </div>
           <div class="mb-3">
             <label for="mobile" class="form-label">Mobile</label>
-            <input type="text" class="form-control" id="mobile" v-model="customer.mobile"/>
+            <input type="text" class="form-control form-control-lg" id="mobile" v-model="customer.mobile"/>
           </div>
           <div class="row" style="display:flex;justify-content:space-between;">
             <div class="col-6">
               <label for="street" class="form-label">Street</label>
-              <select class="form-control" id="dropdown" v-model="address.street" >
+              <select class="form-control form-control-lg" id="dropdown" v-model="address.street" >
                 <option value="">Select Street</option>
                 <option v-for="street in streets" :key="street" :value="street"> Street - {{street}}</option>
               </select>
             </div>
             <div class="col-6">
                 <label for="avenue" class="form-label">Avenue</label>
-                <select class="form-control" id="dropdown" v-model="address.avenue">
+                <select class="form-control form-control-lg" id="dropdown" v-model="address.avenue">
                 <option value="">Select Avenue</option>
                 <option v-for="avenue in avenues" :key="avenue" :value="avenue"> Avenue - {{avenue}}</option>
               </select>
@@ -130,12 +130,12 @@ async function addCustomer() {
           </div>  
           <div class="mb-3" style="margin-top:10px;">
             <label for="Apartment" class="form-label">Apartment Number</label>
-            <input type="text" class="form-control" id="Apartment" v-model="customer.apartmentNumber"/>
+            <input type="text" class="form-control form-control-lg" id="Apartment" v-model="customer.apartmentNumber"/>
           </div>   
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn variant="flat" color="primary" @click="addCustomer()">Create</v-btn>
+            <v-btn variant="flat" color="primary" @click="addCustomer()">Add</v-btn>
           </v-card-actions>
         </v-card>
         <v-snackbar v-model="snackbar.value" rounded="pill">
