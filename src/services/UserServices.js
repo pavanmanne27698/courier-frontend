@@ -33,5 +33,8 @@ export default {
   },
   deleteUser(userId) {
     return apiClient.delete("users/" + userId);
+  },
+  getAvailableDeliveryBoys() {
+    return apiClient.get("users/available?role=3");
   }
 };
