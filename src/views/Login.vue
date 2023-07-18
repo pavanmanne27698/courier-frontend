@@ -21,7 +21,6 @@ const user = ref({
   password: "",
   mobile: ""
 });
-// const companies = ref([]);
 
 const roleOptions =  [ "Clerk","Courier Boy"]
 
@@ -29,19 +28,8 @@ onMounted(async () => {
   if (localStorage.getItem("user") !== null) {
     router.push({ name: "home" });
   }
-  // await getCompanies();
 });
 
-// async function getCompanies() {
-//   await CompanyServices.getCompanies()
-//     .then((response) => {
-//       companies.value = response.data;
-//       console.log("respons",response.data)
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// }
 async function createAccount() {
   await UserServices.addUser({...user.value, role: selectedRole.value === "Admin" ? 1 : selectedRole.value === "Clerk" ? 2 : 3, companyId: 1})
     .then((res) => {
