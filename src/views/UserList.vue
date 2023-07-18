@@ -153,11 +153,11 @@ function goToCreatePage(id) {
                       <td>{{ user.email }}</td>
                       <td>{{ user.mobile }}</td>
                       <td>{{ user.role == 1 ? "ADMIN" : user.role == 2 ? "CLERK" : "Delivery Boy" }}</td>
-                      <td v-if="user.availabilty == 1">Yes</td>
+                      <td v-if="user.isAvailable == 1">Yes</td>
                       <td v-else>No</td>
                       <td>
                           <div class="btn-group" role="group">
-                            <img class="button-image" :src="[getUrl()+'/edit.png']" width="20" height="20" @click="goToUpdatePage(id)" />
+                            <img class="button-image" :src="[getUrl()+'/edit.png']" width="20" height="20" @click="goToUpdatePage(user.id)" />
                             <img class="button-image" :src="[getUrl()+'/delete.png']" width="20" height="20" @click="deleteUser(user.id,index)"  />
                           </div>         
                       </td>
