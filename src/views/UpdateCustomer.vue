@@ -48,7 +48,7 @@ async function getCustomer() {
         });
 }
 
-async function addCustomer() {
+async function updateCustomer() {
   if(customer.value.firstName === "") {
         snackbar.value.value = true;
         snackbar.value.color = "error";
@@ -149,7 +149,7 @@ async function addCustomer() {
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn variant="flat" color="primary" @click="addCustomer()">Update</v-btn>
+            <v-btn variant="flat" color="primary" @click="updateCustomer()">Update</v-btn>
           </v-card-actions>
         </v-card>
         <v-snackbar v-model="snackbar.value" rounded="pill">
