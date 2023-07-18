@@ -14,9 +14,8 @@ const snackbar = ref({
   text: "",
 });
 const order = ref({
-  pickupTime: "",
+  pickupDateTime: "",
   pickupCustomerId: "",
-  deliveryCustomerId: "",
   deliveryLocation:"",
   pickupLocation:""
 });
@@ -126,17 +125,6 @@ async function addOrder() {
           console.log("pic",pickupLocation.value)
       }
     );
-  
-  watch(
-      deliveryUser,
-      (newValue, oldValue) => {
-        order.value.deliveryCustomerId = newValue.id
-        deliveryLocation.value = {
-            street: newValue?.address.charAt(0),
-            avenue: newValue?.address.charAt(1)
-        }
-      }
-    );
 
 </script>
 
@@ -147,13 +135,13 @@ async function addOrder() {
       <div id="body">
         <v-card class="rounded-lg elevation-5">
           <div style="display:flex;" class="heading">
-            <v-card-title class="headline mb-2">Add Order </v-card-title>
+            <v-card-title class="headline mb-2">Create Order </v-card-title>
           </div>
           <Loading v-if="isLoading" />
           <v-card-text v-else>
             <div class="mb-3">
             <label for="pickup_time" class="form-label">Pickup Time</label>
-            <input type="datetime-local" class="form-control form-control-lg" id="pickup_time" v-model="order.pickupTime"/>
+            <input type="datetime-local" class="form-control form-control-lg" id="pickup_time" v-model="order.pickupDateTime"/>
           </div>
           <div class="mb-3">
               <label for="user" class="form-label">Pickup Customer </label>
@@ -178,14 +166,8 @@ async function addOrder() {
               </select>
             </div>
           </div>
-          <div class="mb-3" style="margin-top:10px;">
-              <label for="delivery" class="form-label">Delivery Customer</label>
-              <select class="form-control form-control-lg" id="dropdown" v-model="deliveryUser">
-                <option value="">Select Customer</option>
-                <option v-for="customer in customers" :key="customer.id" :value="customer"> {{customer.lastName}} {{customer.firstName}}</option>
-              </select>
-          </div>
-          <div class="row" style="display:flex;justify-content:space-between;" v-if="order.deliveryCustomerId">
+          <div class="row" style="display:flex;justify-content:space-between;margin-top:10px;" v-if="order.pickupCustomerId">
+            <!-- <h5 for="pickup" class="form-label" style="margin-top:10px;margin-bottom:10px;">Shipping Details</h5> -->
             <div class="col-6">
               <label for="delivery" class="form-label">Delivery Street</label>
               <select class="form-control form-control-lg" id="dropdown" v-model="deliveryLocation.street" >

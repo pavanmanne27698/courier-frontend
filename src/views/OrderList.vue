@@ -6,6 +6,7 @@ import { ref } from "vue";
 import Loading from "../components/Loading.vue";
 import LeftNavbar from "../components/LeftNavbar.vue";
 import { getUrl } from "../common"
+import OrderDetails from "./OrderDetails.vue"
 
 const orders = ref([]);
 const isLoading = ref(true);
@@ -19,6 +20,7 @@ const snackbar = ref({
 const actualResponse = ref([])
 const sort = ref(0)
 const search = ref("")
+const selectedOrder = ref(null)
 const options = [
   { value: 0, label: 'All' },
   { value: 1, label: 'Pending' },
@@ -42,7 +44,7 @@ const setSnackbar = (text,color="error") => {
 }
 
 async function getOrders() {
-  await OrderServices.getOrders()
+  await OrderServices.getOrders(router.currentRoute.value.params.type,user.value.id)
     .then((res) => {
       orders.value = res.data;
       actualResponse.value = res.data;
@@ -73,6 +75,15 @@ function goToUpdatePage(id) {
 function goToCreatePage(id) {
   router.push({ name: "addOrder" })
 }
+
+watch(
+      () => router.currentRoute.value.params.type,
+      (newType, oldType) => {
+        if (newType !== oldType) {
+          location.reload();
+        }
+      }
+    );
 
  watch(
       sort,
@@ -116,7 +127,7 @@ function goToCreatePage(id) {
     <div class="container" style="margin-top: 20px">
       <div style="display: flex; justify-content: center;">
         <h3>Orders</h3>
-      <a class="btn btn-danger create" @click="goToCreatePage()" style="margin-left:10px;" >Add Order</a>
+      <a class="btn btn-danger create" @click="goToCreatePage()" style="margin-left:10px;" v-if="user && user.role != 3" >Add Order</a>
       </div>
       <br/>
       <div style="display:flex;margin-top:5px;margin-bottom:20px;">
@@ -136,7 +147,6 @@ function goToCreatePage(id) {
                     <tr>
                     <th scope="col">id</th>
                     <th scope="col">Pickup Customer</th>
-                    <th scope="col">Delivery Customer</th>
                     <th v-if="user.role_id != 3"> Delivery Boy </th>
                     <th scope="col">Pickup Time</th>
                     <th scope="col">Price of Order</th>
@@ -149,18 +159,20 @@ function goToCreatePage(id) {
                     <tr v-for="(order,index) in orders" :key="index" >
                     <th scope="row">{{ order.id }}</th>
                     <td>{{ order.pickupCustomer.firstName }} {{ order.pickupCustomer.lastName }}</td>
-                    <td>{{ order.deliveryCustomer.firstName }} {{ order.deliveryCustomer.lastName }}</td>
                     <td v-if="order.deliveryBoyUserId">{{ order.deliveryBoyUser.firstName }} {{ order.deliveryBoyUser.laststName }}</td>
                     <td v-else-if="user.role_id != 3"> Not Assigned</td>
-                    <td>{{ order.pickupTime }}</td>
+                    <td>{{ order.pickupDateTime }}</td>
                     <td>${{ order.cost }}</td>
                     <td >{{ order.distance }} Miles</td>
                     <td> {{ order.status.toLowerCase() }} </td>
                     <td v-if="user.role != 3">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                              <img class="button-image" :src="[getUrl()+'/edit.png']" width="20" height="20" @click="goToUpdatePage(id)" />
+                              <img class="button-image" :src="[getUrl()+'/edit.png']" width="20" height="20" @click="goToUpdatePage(order.id)" />
                               <img class="button-image" src="/delete.png" width="20" height="20" @click="deleteOrder(order.id,index)" />
                           </div>      
+                    </td>
+                    <td>
+                        <a type="button" class="btn btn-secondary edit" data-bs-toggle="modal" data-bs-target="#orderModal" @click="selectedOrder=order">View Order</a>
                     </td>
                     </tr>
                 </tbody>
@@ -184,6 +196,22 @@ function goToCreatePage(id) {
             </v-btn>
           </template>
         </v-snackbar>
+    <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="orderModalLabel">Courier Details</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <OrderDetails :order="selectedOrder" />
+            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary edit" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
   <br/>
 </v-container>
 
@@ -195,7 +223,7 @@ function goToCreatePage(id) {
   padding: 30px;
   background-color: white;
 }
-.create {
+.create,.edit {
     background-color: #80162B ;
     margin-left: 20px;
     padding-top: -10px;
