@@ -32,12 +32,22 @@ const routes = {
     icon: getUrl()+"/customer.png",
     name: "Customers"
   },
+  {
+    path: "/orders/placed",
+    icon: getUrl()+"/order.png",
+    name: "My Placed orders"
+  }
   ],
   2:[
     {
     path: "/",
     icon: getUrl()+"/dashboard.png",
     name: "Dashboard"
+    },
+    {
+    path: "/users",
+    icon: getUrl()+"/admin.png",
+    name: "Users"
     },
     {
       path: "/orders",
@@ -62,14 +72,9 @@ const routes = {
     name: "Dashboard"
     },
     {
-    path: "/my-current-order",
+    path: "/orders/my-orders",
     icon: getUrl()+"/order.png",
-    name: "Current Orders"
-    },
-    {
-      path: "/orders/delivered",
-      icon: getUrl()+"/order.png",
-      name: "Delivered Orders"
+    name: "My Orders"
     }
   ],
 }
