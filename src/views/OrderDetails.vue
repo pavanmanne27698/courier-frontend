@@ -92,7 +92,7 @@ const delivered = async() => {
                 </tr>
                 <tr v-if="order.deliveryBoyPoints">
                 <th>Delivery Boy Bonus</th>
-                <td> ${{ order.deliveryBoyPoints }}</td>
+                <td> {{ order.deliveryBoyPoints }} Points</td>
                 </tr>
                 <tr>
                 <th>Expected Time for Delivery </th>
