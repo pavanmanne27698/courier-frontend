@@ -82,7 +82,7 @@ const getCompanies = async() => {
 }
 const getCompany = (companyId) => {
     if(companyId)
-    return companies.filter((company) => company.id === companyId)[0];
+    return companies.value.filter((company) => company.id === companyId)[0];
    return null;
 }
 function closeSnackBar() {
