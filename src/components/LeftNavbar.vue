@@ -44,11 +44,12 @@ const routes = {
     icon: getUrl()+"/dashboard.png",
     name: "Dashboard"
     },
- //   {
-  //  path: "/users",
-  //  icon: getUrl()+"/admin.png",
-  //  name: "Users"
- //   },
+
+ /*   {
+    path: "/users",
+    icon: getUrl()+"/admin.png",
+    name: "Users"
+   }, */
     {
       path: "/orders",
       icon: getUrl()+"/order.png",
