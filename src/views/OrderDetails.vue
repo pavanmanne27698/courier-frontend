@@ -83,12 +83,24 @@ const delivered = async() => {
                 <td>{{ order.status }}</td>
                 </tr>
                 <tr>
+                <th>Pickup Date and Time</th>
+                <td>{{ order.pickupDateTime }}</td>
+                </tr>
+                <tr>
+                <th>Pickup Location</th>
+                <td>{{ order.pickupLocation }}</td>
+                </tr>
+                <tr>
+                <th>Delivery Location</th>
+                <td>{{ order.deliveryLocation }}</td>
+                </tr>
+                <tr>
                 <th>Price</th>
                 <td> ${{ order.cost }}</td>
                 </tr>
                 <tr>
                 <th>Distance</th>
-                <td> {{ order.distance }} miles</td>
+                <td> {{ order.distance }} Miles</td>
                 </tr>
                 <tr v-if="order.deliveryBoyPoints">
                 <th>Delivery Boy Bonus</th>
@@ -115,12 +127,21 @@ const delivered = async() => {
                 <td> {{ order.isDeliveredInTime ? "Yes" : "No" }} </td>
                 </tr>
                  <tr v-if="order.pickupCustomer" >
-                 <th>Pickup Details</th>
+                 <th>Pickup Customer Details</th>
                 <td> 
                     <p> Name - {{ order.pickupCustomer.firstName}} {{ order.pickupCustomer.lastName}} <br/>
                      Email - {{ order.pickupCustomer.email}} <br/>
                      Contact - {{ order.pickupCustomer.mobile}} <br/>
-                     Address -  Street {{ order.pickupCustomer.streetNumber}}, Avenue {{ order.pickupCustomer.avenue }}  <br/>
+                     </p>
+                </td>
+                </tr>
+                 </tr>
+                 <tr v-if="order.deliveryCustomer" >
+                 <th>Delivery Customer Details</th>
+                <td> 
+                    <p> Name - {{ order.deliveryCustomer.firstName}} {{ order.deliveryCustomer.lastName}} <br/>
+                     Email - {{ order.deliveryCustomer.email}} <br/>
+                     Contact - {{ order.deliveryCustomer.mobile}} <br/>
                      </p>
                 </td>
                 </tr>
