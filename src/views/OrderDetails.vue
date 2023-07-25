@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 import OrderServices from "../services/OrderServices.js";
 import { ref } from "vue";
 import Loading from "../components/Loading.vue";
+import CompanyServices from "../services/CompanyServices.js";
 
 
 const isLoading = ref(true);
@@ -14,7 +15,7 @@ const snackbar = ref({
   text: "",
 });
 const router = useRouter()
-
+const company = ref(null)
 const props = defineProps({
   order: Object,
 });
@@ -23,12 +24,24 @@ const order = toRef(props, 'order');
 onMounted(async () => {
   user.value = JSON.parse(localStorage.getItem("user"));
   isLoading.value = false;
+  await getCompanyDetails();
 });
 
 const setSnackbar = (text,color="error") => {
     snackbar.value.value = true;
     snackbar.value.color = color;
     snackbar.value.text = text;
+}
+
+const getCompanyDetails = async() => {
+  await CompanyServices.getCompany(order.value.companyId)
+      .then((res) => {
+        company.value = res.data
+      })
+      .catch((error) => {
+        console.log(error);
+        // setSnackbar(error.response.data.message)
+      });
 }
 
 const deleteOrder = async() => {
@@ -159,6 +172,15 @@ const delivered = async() => {
                     <p> Name - {{ order.deliveryBoyUser.firstName}} {{ order.deliveryBoyUser.lastName}} <br/>
                      Email - {{ order.deliveryBoyUser.email}} <br/>
                      Contact - {{ order.deliveryBoyUser.mobile}} <br/>
+                    </p>
+                </td>
+                </tr>
+                   <tr v-if="company">
+                <th>Company Details</th>
+                <td> 
+                    <p> Name - {{ company.name }} <br/>
+                     Email - {{ company.email}} <br/>
+                     Location - {{ company.location}} <br/>
                     </p>
                 </td>
                 </tr>
