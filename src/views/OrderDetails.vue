@@ -135,7 +135,6 @@ const delivered = async() => {
                      </p>
                 </td>
                 </tr>
-                 </tr>
                  <tr v-if="order.deliveryCustomer" >
                  <th>Delivery Customer Details</th>
                 <td> 
