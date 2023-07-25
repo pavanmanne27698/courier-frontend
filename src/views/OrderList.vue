@@ -81,7 +81,9 @@ const getCompanies = async() => {
       });
 }
 const getCompany = (companyId) => {
+    if(companyId)
     return companies.filter((company) => company.id === companyId)[0];
+   return null;
 }
 function closeSnackBar() {
   snackbar.value.value = false;
@@ -221,7 +223,7 @@ watch(
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-              <OrderDetails :order="selectedOrder" :company="getCompany(selectedOrder.companyId)" />
+              <OrderDetails :order="selectedOrder" :company="getCompany(selectedOrder?.companyId)" />
             </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary edit" data-bs-dismiss="modal">Close</button>
