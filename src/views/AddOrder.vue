@@ -78,7 +78,7 @@ async function getOrderDetails() {
             const detailedDistance = response.data.detailedDistance
             const totalDistance = detailedDistance.fromOfficeToPickup+ detailedDistance.fromPickupToDelivery+detailedDistance.returnToOffice
             const responseBody = {
-              distance : totalDistance
+              distance : totalDistance,
               timeForDelivery: totalDistance * 3 ,
               cost: response.data.distance * 1.5
             }
