@@ -80,7 +80,7 @@ async function getOrderDetails() {
             const responseBody = {
               distance : totalDistance,
               timeForDelivery: totalDistance * 3 ,
-              cost: response.data.distance * 1.5
+              cost: totalDistance * 1.5
             }
             orderDetails.value = responseBody
           } else {
