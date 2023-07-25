@@ -80,6 +80,7 @@ const getCompanies = async() => {
         // setSnackbar(error.response.data.message)
       });
 }
+
 const getCompany = (companyId) => {
     if(companyId)
     return companies.value.filter((company) => company.id === companyId)[0];
