@@ -7,11 +7,13 @@ import Loading from "../components/Loading.vue";
 import LeftNavbar from "../components/LeftNavbar.vue";
 import { getUrl } from "../common"
 import OrderDetails from "./OrderDetails.vue"
+import CompanyServices from "../services/CompanyServices.js";
 
 const orders = ref([]);
 const isLoading = ref(true);
 const user = ref(null);
 const router = useRouter();
+const companies = ref(null);
 const snackbar = ref({
   value: false,
   color: "",
@@ -34,6 +36,7 @@ onMounted(async () => {
     router.push({ name: "login" });
   }
   await getOrders();
+  await getCompanies();
   isLoading.value = false;
 });
 
@@ -65,6 +68,23 @@ const deleteOrder = async(id,index) => {
       console.log(error);
       setSnackbar(error.response.data.message)
     });
+}
+
+const getCompanies = async() => {
+  await CompanyServices.getCompanies()
+      .then((res) => {
+        companies.value = res.data
+      })
+      .catch((error) => {
+        console.log(error);
+        // setSnackbar(error.response.data.message)
+      });
+}
+
+const getCompany = (companyId) => {
+    if(companyId)
+    return companies.value.filter((company) => company.id === companyId)[0];
+   return null;
 }
 function closeSnackBar() {
   snackbar.value.value = false;
@@ -204,7 +224,7 @@ watch(
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-              <OrderDetails :order="selectedOrder" />
+              <OrderDetails :order="selectedOrder" :company="getCompany(selectedOrder?.companyId)" />
             </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary edit" data-bs-dismiss="modal">Close</button>

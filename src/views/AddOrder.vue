@@ -16,6 +16,7 @@ const snackbar = ref({
 const order = ref({
   pickupDateTime: "",
   pickupCustomerId: "",
+  deliveryCustomerId: "",
   deliveryLocation:"",
   pickupLocation:""
 });
@@ -69,17 +70,25 @@ async function getOrderDetails() {
     }
     await OrderServices.calculateOrderDetails(body)
         .then((response) => {
+          isLoading.value = false
+          if(response.data.distance != null) {
             snackbar.value.value = true;
             snackbar.value.color = "green";
             snackbar.value.text = "order details retrieved successfully!";
-            isLoading.value = false
-            console.log("res",response)
+            const detailedDistance = response.data.detailedDistance
+            const totalDistance = detailedDistance.fromOfficeToPickup+ detailedDistance.fromPickupToDelivery+detailedDistance.returnToOffice
             const responseBody = {
-              distance : response.data.distance,
-              timeForDelivery: response.data.distance * 3 ,
-              cost: response.data.distance * 10
+              distance : totalDistance,
+              timeForDelivery: totalDistance * 3 ,
+              cost: totalDistance * 1.5
             }
             orderDetails.value = responseBody
+          } else {
+              snackbar.value.value = true;
+              snackbar.value.color = "error";
+              snackbar.value.text = "Cannot find a path!";
+          }
+
         })
         .catch((error) => {
             console.log(error);
@@ -116,13 +125,22 @@ async function addOrder() {
  watch(
       pickupUser,
       (newValue, oldValue) => {
-        console.log("new",newValue.address)
           order.value.pickupCustomerId = newValue.id
           pickupLocation.value = {
             street: newValue?.address.charAt(0),
             avenue: newValue?.address.charAt(1)
           }
-          console.log("pic",pickupLocation.value)
+      }
+    );
+
+ watch(
+      deliveryUser,
+      (newValue, oldValue) => {
+          order.value.deliveryCustomerId = newValue.id
+          deliveryLocation.value = {
+            street: newValue?.address.charAt(0),
+            avenue: newValue?.address.charAt(1)
+          }
       }
     );
 
@@ -150,6 +168,15 @@ async function addOrder() {
                 <option v-for="customer in customers" :key="customer.id" :value="customer"> {{customer.lastName}} {{customer.firstName}}</option>
               </select>
           </div>
+
+          <div class="mb-3">
+              <label for="user" class="form-label">Delivery Customer </label>
+              <select class="form-control form-control-lg" id="dropdown" v-model="deliveryUser">
+                <option value="">Select Customer</option>
+                <option v-for="customer in customers" :key="customer.id" :value="customer"> {{customer.lastName}} {{customer.firstName}}</option>
+              </select>
+          </div>
+
           <div class="row" style="display:flex;justify-content:space-between;" v-if="order.pickupCustomerId">
             <div class="col-6">
               <label for="pickup" class="form-label">Pickup Street</label>
@@ -166,7 +193,7 @@ async function addOrder() {
               </select>
             </div>
           </div>
-          <div class="row" style="display:flex;justify-content:space-between;margin-top:10px;" v-if="order.pickupCustomerId">
+          <div class="row" style="display:flex;justify-content:space-between;margin-top:10px;" v-if="order.deliveryCustomerId">
             <!-- <h5 for="pickup" class="form-label" style="margin-top:10px;margin-bottom:10px;">Shipping Details</h5> -->
             <div class="col-6">
               <label for="delivery" class="form-label">Delivery Street</label>
@@ -192,9 +219,9 @@ async function addOrder() {
 
           <div v-if="orderDetails != null" class="orderDetails">
             <h4 style="text-decoration:underline;">Order Details</h4>
-            <p> Price for Order is <strong>{{ orderDetails.cost }}</strong></p>
-            <p> Time takes to deliver order is <strong>{{ orderDetails.timeForDelivery }}</strong></p>
-            <p> Distance between pickup and drop location is <strong>{{ orderDetails.distance }}</strong></p>
+            <p> Price for Order is <strong>$ {{ orderDetails.cost }}</strong></p>
+            <p> Time takes to deliver order is <strong>{{ orderDetails.timeForDelivery }} Minutes</strong></p>
+            <p> Total distance (including office) is <strong>{{ orderDetails.distance }} Miles</strong></p>
             <v-card-actions>
               <!-- <v-spacer></v-spacer> -->
               <v-btn variant="flat" class="place-order" color="primary" @click="addOrder()">Place Order</v-btn>
