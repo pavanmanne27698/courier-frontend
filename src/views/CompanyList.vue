@@ -97,6 +97,7 @@ function closeSnackBar() {
                       <th scope="col">Name</th>
                       <th scope="col">Location</th>
                       <th scope="col">Email</th>
+                      <th scope="col">Actions</th>
                       </tr>
                   </thead>
                   <tbody>
@@ -145,7 +146,7 @@ function closeSnackBar() {
   background-color: white;
 }
 .create {
-    background-color: #80162B ;
+    background-color: #142136 ;
     margin-left: 20px;
     padding-top: -10px;
     color: white;

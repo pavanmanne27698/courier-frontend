@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 import OrderServices from "../services/OrderServices.js";
 import { ref } from "vue";
 import Loading from "../components/Loading.vue";
+import html2pdf from 'html2pdf.js';
 
 
 const isLoading = ref(true);
@@ -64,6 +65,116 @@ const delivered = async() => {
       console.log(error);
       setSnackbar(error.response.data.message)
     });
+}
+
+const downloadInvoice = () =>{
+  const invoice = order.value
+   // Generate the HTML content for the invoice
+      const invoiceHTML = `
+         <html>
+        <head>
+          <style>
+          table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+          }
+          table {
+              width: 80%;
+          }
+          td {
+              width: 80%;
+              padding: 10px;
+          }
+          th {
+              padding-left: 10px;
+          }
+          .flex {
+              display: flex;
+              justify-content: space-around;
+          }
+          </style>
+        </head>
+        <body>
+          <h1>Invoice for Order ID: ${invoice.id}</h1>
+          <div class="flex">
+                <table>
+                <tr>
+                <th>Order Id</th>
+                <td> ${ invoice.id }</td>
+                </tr>
+                <tr>
+                <th>Pickup Date and Time</th>
+                <td> ${ invoice.pickupDateTime }</td>
+                </tr>
+                <tr>
+                <th>Pickup Location</th>
+                <td> ${ invoice.pickupLocation }</td>
+                </tr>
+                <tr>
+                <th>Delivery Location</th>
+                <td> ${ invoice.deliveryLocation }</td>
+                </tr>
+                <tr>
+                <th>Price</th>
+                <td> $ ${ invoice.cost }</td>
+                </tr>
+                <tr>
+                 <th>Created At</th>
+                <td>  ${ invoice.createdAt } </td>
+                </tr>
+                <tr>
+                 <th>Picked up At</th>
+                <td> ${ invoice.pickedupDateTime } </td>
+                </tr>
+                <tr>
+                 <th>Delivered At</th>
+                <td> ${ invoice.deliveredDateTime } </td>
+                </tr>
+                 <tr>
+                 <th>Pickup Customer Details</th>
+                <td> 
+                    <p> Name - ${ invoice.pickupCustomer.firstName} ${ invoice.pickupCustomer.lastName} <br/>
+                     Email - ${ invoice.pickupCustomer.email} <br/>
+                     Contact - ${ invoice.pickupCustomer.mobile} <br/>
+                     </p>
+                </td>
+                </tr>
+                 <tr >
+                 <th>Delivery Customer Details</th>
+                <td> 
+                    <p> Name - ${ invoice.deliveryCustomer.firstName} ${ invoice.deliveryCustomer.lastName} <br/>
+                     Email - ${ invoice.deliveryCustomer.email} <br/>
+                     Contact - ${ invoice.deliveryCustomer.mobile} <br/>
+                     </p>
+                </td>
+                </tr>
+                <tr>
+                
+                <th>Company Details</th>
+                <td> 
+                    <p> Name - ${ company.value.name } <br/>
+                     Email - ${ company.value.email} <br/>
+                     Location - ${ company.value.location} <br/>
+                    </p>
+                </td>
+                </tr>
+            </table>
+            </div>
+        </body>
+      </html>
+      `;
+
+      // Options for the PDF generation (optional)
+      const options = {
+        margin: [10, 10], // Page margins (top, right, bottom, left)
+        filename: 'invoice.pdf',
+        image: { type: 'jpeg', quality: 0.98 }, // Optional image settings
+        html2canvas: { scale: 2 }, // Optional html2canvas settings
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }, // Optional jsPDF settings
+      };
+
+      // Generate the PDF from the HTML content
+      html2pdf().from(invoiceHTML).set(options).save();
 }
 </script>
 
@@ -181,10 +292,22 @@ const delivered = async() => {
                         </div> 
                     </td>
                 </tr>
-
-                
+                <tr v-if="order.deliveredDateTime ">
+                <th>Invoice</th>
+                <td> 
+                    <button type="button" class="btn btn-secondary edit" @click="downloadInvoice()">Download PDF</button>
+                </td>
+                </tr>
             </table>
-
+            <div  v-if="order.path">
+                <h4>Path Details</th>
+                <div> 
+                    <p> Office to Pickup Location - {{ order.path.one.join(" to ")}}<br/>
+                     Pickup Location to delivery Location  - {{ order.path.two.join(" to ")}} <br/>
+                     Delivery Location to Office - {{ order.path.thre.join(" to ")}} <br/>
+                    </p>
+                </td>
+            </div>
         </div>
     </div>
   </div>
