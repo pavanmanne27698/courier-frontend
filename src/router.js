@@ -63,6 +63,22 @@ const router = createRouter({
       name: "updateOrder",
       component: () => import("./views/UpdateOrder.vue"),
     },
+    {
+      path: "/companies",
+      name: "companies",
+      component: () => import("./views/CompanyList.vue"),
+    },
+    {
+      path: "/update-company/:id",
+      name: "updateCompany",
+      component: () => import("./views/UpdateCompany.vue"),
+    },
+    {
+      path: "/add-company",
+      name: "addCompany",
+      component: () => import("./views/AddCompany.vue"),
+    },
+
   ],
 });
 
