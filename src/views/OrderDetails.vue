@@ -300,13 +300,13 @@ const downloadInvoice = () =>{
                 </tr>
             </table>
             <div  v-if="order.path">
-                <h4>Path Details</th>
+                <h4>Path Details</h4>
                 <div> 
                     <p> Office to Pickup Location - {{ order.path.one.join(" to ")}}<br/>
                      Pickup Location to delivery Location  - {{ order.path.two.join(" to ")}} <br/>
                      Delivery Location to Office - {{ order.path.thre.join(" to ")}} <br/>
                     </p>
-                </td>
+                </div>
             </div>
         </div>
     </div>
