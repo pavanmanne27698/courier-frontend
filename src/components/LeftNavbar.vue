@@ -17,6 +17,10 @@ const routes = {
     icon: getUrl()+"/dashboard.png",
     name: "Dashboard"
   },
+   {
+    path: "/companies",
+    name: "Companies"
+  },
   {
     path: "/users",
     icon: getUrl()+"/admin.png",
