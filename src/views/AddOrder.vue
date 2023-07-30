@@ -66,7 +66,8 @@ async function getOrderDetails() {
     isLoading.value = true
     const body = {
       pickupLocation: pickupLocation.value.street+pickupLocation.value.avenue ,
-      deliveryLocation: deliveryLocation.value.street+deliveryLocation.value.avenue
+      deliveryLocation: deliveryLocation.value.street+deliveryLocation.value.avenue,
+      companyId: user.value.companyId
     }
     await OrderServices.calculateOrderDetails(body)
         .then((response) => {
