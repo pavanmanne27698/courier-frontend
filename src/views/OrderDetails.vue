@@ -250,13 +250,13 @@ th {
   margin-bottom: 10px;
 }
 .create {
-    background-color: #80162B ;
+    background-color: #142136;
     margin-left: 20px;
     padding-top: -10px;
     color: white;
 }
 .edit {
-  background-color: #80162B;
+  background-color: #1f651a;
   color: white;
 }
 .delete {

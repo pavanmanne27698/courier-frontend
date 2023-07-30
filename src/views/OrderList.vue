@@ -244,7 +244,7 @@ watch(
   background-color: white;
 }
 .create,.edit {
-    background-color: #80162B ;
+    background-color: #142136 ;
     margin-left: 20px;
     padding-top: -10px;
     color: white;
