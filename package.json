@@ -21,6 +21,7 @@
     "vue-router": "^4.1.6",
     "vuetify": "^3.2.3",
     "vuex": "^4.0.2",
+    "vue-chartjs": "^5.2.0",
     "html2pdf.js": "^0.10.1",
     "webfontloader": "^1.6.28"
   },
