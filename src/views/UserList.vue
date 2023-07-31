@@ -46,7 +46,7 @@ function goToUpdatePage(id) {
 }
 
 async function getUsers() {
-  await UserServices.getUsers()
+  await UserServices.getUsers(user.value.role)
     .then((res) => {
       users.value = res.data;
       actualResponse.value = res.data

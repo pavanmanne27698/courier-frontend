@@ -84,17 +84,14 @@ function closeSnackBar() {
       <v-card class="rounded-lg elevation-5">
         <v-card-title class="headline mb-2">Login </v-card-title>
         <v-card-text>
-          <v-text-field
-            v-model="user.email"
-            label="Email"
-            required
-          ></v-text-field>
-
-          <v-text-field
-            v-model="user.password"
-            label="Password"
-            required
-          ></v-text-field>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control form-control-lg" id="email" v-model="user.email" required/>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control form-control-lg" id="password" v-model="user.password" required/>
+          </div>
         </v-card-text>
         <v-card-actions>
           <v-btn variant="flat" color="secondary" @click="openCreateAccount()"
@@ -110,33 +107,26 @@ function closeSnackBar() {
         <v-card class="rounded-lg elevation-5">
           <v-card-title class="headline mb-2">Create Account </v-card-title>
           <v-card-text>
-            <v-text-field
-              v-model="user.firstName"
-              label="First Name"
-              required
-            ></v-text-field>
-
-            <v-text-field
-              v-model="user.lastName"
-              label="Last Name"
-              required
-            ></v-text-field>
-
-            <v-text-field
-              v-model="user.email"
-              label="Email"
-              required
-            ></v-text-field>
-            <v-text-field
-              v-model="user.mobile"
-              label="Mobile"
-              required
-            ></v-text-field>
-            <v-text-field
-              v-model="user.password"
-              label="Password"
-              required
-            ></v-text-field>
+          <div class="mb-3">
+            <label for="fname" class="form-label">First Name</label>
+            <input type="text" class="form-control form-control-lg" id="fname" v-model="user.firstName" required/>
+          </div>
+          <div class="mb-3">
+            <label for="lname" class="form-label">Last Name</label>
+            <input type="text" class="form-control form-control-lg" id="lname" v-model="user.lastName" required/>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control form-control-lg" id="email" v-model="user.email" required/>
+          </div>
+          <div class="mb-3">
+            <label for="mobile" class="form-label">Mobile</label>
+            <input type="text" class="form-control form-control-lg" id="mobile" v-model="user.mobile" required/>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control form-control-lg" id="password" v-model="user.password" required/>
+          </div>
              <v-select
                 v-model="selectedRole"
                 label="Role"
