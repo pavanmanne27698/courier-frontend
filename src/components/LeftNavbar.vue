@@ -14,7 +14,6 @@ const routes = {
   1:[
     {
     path: "/",
-    icon: getUrl()+"/dashboard.png",
     name: "Dashboard"
   },
    {
@@ -23,62 +22,50 @@ const routes = {
   },
   {
     path: "/users",
-    icon: getUrl()+"/admin.png",
     name: "Users"
   },
   {
     path: "/orders",
-    icon: getUrl()+"/order.png",
     name: "Orders"
   },
   {
     path: "/customers",
-    icon: getUrl()+"/customer.png",
     name: "Customers"
   },
   {
     path: "/orders/placed",
-    icon: getUrl()+"/order.png",
     name: "My Placed orders"
   }
   ],
   2:[
     {
     path: "/",
-    icon: getUrl()+"/dashboard.png",
     name: "Dashboard"
     },
-
- /*   {
+   {
     path: "/users",
-    icon: getUrl()+"/admin.png",
-    name: "Users"
-   }, */
+    name: "Delivery Boys"
+   },
     {
       path: "/orders",
-      icon: getUrl()+"/order.png",
       name: "Orders"
     },
     {
       path: "/customers",
-      icon: getUrl()+"/customer.png",
       name: "Customers"
     },
     {
       path: "/orders/placed",
-      icon: getUrl()+"/order.png",
       name: "My Placed orders"
     }
     ],
   3: [
     {
     path: "/",
-    icon: getUrl()+"/dashboard.png",
     name: "Dashboard"
     },
     {
     path: "/orders/my-orders",
-    icon: getUrl()+"/order.png",
     name: "My Orders"
     }
   ],

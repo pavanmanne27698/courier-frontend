@@ -6,6 +6,7 @@ import CustomerServices from "../services/CustomerServices.js";
 import OrderServices from "../services/OrderServices.js";
 import Loading from "../components/Loading.vue";
 import LeftNavbar from "../components/LeftNavbar.vue";
+import UserServices from "../services/UserServices.js";
 
 const router = useRouter();
 const snackbar = ref({
@@ -18,7 +19,8 @@ const order = ref({
   pickupCustomerId: "",
   deliveryCustomerId: "",
   deliveryLocation:"",
-  pickupLocation:""
+  pickupLocation:"",
+  deliveryBoyUserId:""
 });
 const isLoading = ref(true);
 const user = ref(null);
@@ -30,10 +32,11 @@ const pickupUser = ref(null)
 const deliveryUser = ref(null)
 const pickupLocation = ref({ street:"",avenue: ""})
 const deliveryLocation = ref({ street:"",avenue: ""})
-
+const deliveryBoys = ref(null)
 onMounted(async () => {
   user.value = JSON.parse(localStorage.getItem("user"));
   await getCustomers();
+  await getAvailableDeliveryBoys();
   isLoading.value = false;
 });
 
@@ -121,6 +124,16 @@ async function addOrder() {
             snackbar.value.text = error.response.data.message;
             isLoading.value = false
         });
+}
+
+async function getAvailableDeliveryBoys() {
+  await UserServices.getAvailableDeliveryBoys()
+    .then((response) => {
+      deliveryBoys.value = response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
  watch(
@@ -223,6 +236,12 @@ async function addOrder() {
             <p> Price for Order is <strong>$ {{ orderDetails.cost }}</strong></p>
             <p> Time takes to deliver order is <strong>{{ orderDetails.timeForDelivery }} Minutes</strong></p>
             <p> Total distance (including office) is <strong>{{ orderDetails.distance }} Miles</strong></p>
+            <div class="mb-3" style="margin-top:10px;">
+              <label for="user" class="form-label">Assign Delivery Boy</label>
+              <select class="form-control" id="dropdown" v-model="order.deliveryBoyUserId">
+                <option v-for="deliveryBoy in deliveryBoys" :key="deliveryBoy.id" :value="deliveryBoy.id"> {{deliveryBoy.lastName}} {{deliveryBoy.firstName}}</option>
+              </select>
+          </div>
             <v-card-actions>
               <!-- <v-spacer></v-spacer> -->
               <v-btn variant="flat" class="place-order" color="primary" @click="addOrder()">Place Order</v-btn>

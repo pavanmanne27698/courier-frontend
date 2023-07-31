@@ -21,7 +21,7 @@ const user = ref({
   role: ""
 });
 const isLoading = ref(false);
-const roleOptions =  [
+var roleOptions =  ref([
         {
             id:"1",
             role:"Admin"
@@ -34,12 +34,20 @@ const roleOptions =  [
             id:"3",
             role:"Delivery Boy"
         }
-      ]
-    const isLoggedIn = ref(null)
+      ])
+const isLoggedIn = ref(null)
 onMounted(async () => {
     isLoggedIn.value = JSON.parse(localStorage.getItem("user"));
     if(!isLoggedIn.value) {
     router.push({ name: "login" });
+  }
+  if(isLoggedIn.value.role == 2){
+    roleOptions.value =  [
+         {
+            id:"3",
+            role:"Delivery Boy"
+        }
+      ]
   }
 });
 const setSnackbar = (text,color="error") => {

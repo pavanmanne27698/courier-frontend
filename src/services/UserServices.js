@@ -28,13 +28,18 @@ export default {
   logoutUser() {
     return apiClient.post("logout");
   },
-  getUsers() {
-    return apiClient.get("users/")
+  getUsers(role) {
+    console.log("role",role)
+    if(role == 1)
+      return apiClient.get("users/")
+    else {
+      return apiClient.get("users/deliveryBoys")
+    }
   },
   deleteUser(userId) {
     return apiClient.delete("users/" + userId);
   },
   getAvailableDeliveryBoys() {
-    return apiClient.get("users/available?role=3");
+    return apiClient.get("users/deliveryBoys");
   }
 };
