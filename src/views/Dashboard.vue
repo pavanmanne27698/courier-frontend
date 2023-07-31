@@ -55,7 +55,7 @@ const generateLastWeekChart = (data) =>{
     datasets: [
         {
         label: 'Last Week Delivered Orders',
-        backgroundColor: '#f87979',
+        backgroundColor: '#e8b200',
         data: lastWeekDeliveredOrders
         }
     ]
