@@ -17,7 +17,7 @@ const snackbar = ref({
   color: "",
   text: "",
 });
-const lastWeekChartData = ref([])
+const chartData = ref([])
 onMounted(async () => {
   user.value = JSON.parse(localStorage.getItem("user"));
     if(!user.value) {
@@ -48,15 +48,15 @@ async function getLastWeekReport() {
 }
 
 const generateLastWeekChart = (data) =>{
-    const lastWeekLabels= data.map((item) => item.date);
-    const lastWeekDeliveredOrders = data.map((item) => item.delivered);
-    lastWeekChartData.value = {
-    labels: lastWeekLabels,
+    const labels= data.map((item) => item.date);
+    const orders = data.map((item) => item.delivered);
+    chartData.value = {
+    labels: labels,
     datasets: [
         {
-        label: 'Last Week Delivered Orders',
-        backgroundColor: '#f87979',
-        data: lastWeekDeliveredOrders
+        label: 'Delivered Orders for last week',
+        backgroundColor: '#e8b200',
+        data: orders
         }
     ]
     }
@@ -76,7 +76,7 @@ const generateLastWeekChart = (data) =>{
     <div class="col-md-12 container elevation-4 dashboard" v-else-if="dashboard">
         <div class="row">
             <div class="col-6">
-                <Linechart :chartData="lastWeekChartData" style="width:500px;height:500px;" />
+                <Linechart :chartData="chartData" style="width:500px;height:500px;" />
             </div>
             <div style="display:flex;justify-content:space-around;">
              <div class="col-6 static">
