@@ -73,6 +73,11 @@ const routes = {
 </script>
 <template>
     <v-navigation-drawer app :mini-variant="false" permanent>
+    <div style="margin-top:10px;padding-left:5px;">
+      <h3 v-if="user?.role ==1">Admin</h3>
+      <h3 v-else-if="user?.role ==2">Clerk</h3>
+      <h3 v-else-if="user?.role ==3">Delivery Boy</h3>
+      </div>
       <v-list style="margin-top:20px;">
         <v-list-item v-for="route in routes[user?.role]" :key="route.path" :to="route.path" link>
           <div style="display:flex">
