@@ -72,7 +72,7 @@ const routes = {
 }
 </script>
 <template>
-    <v-navigation-drawer app>
+    <v-navigation-drawer app :mini-variant="false" permanent>
       <v-list style="margin-top:20px;">
         <v-list-item v-for="route in routes[user?.role]" :key="route.path" :to="route.path" link>
           <div style="display:flex">

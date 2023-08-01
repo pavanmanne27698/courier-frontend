@@ -2,6 +2,7 @@
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import DashboardServices from "../services/DashboardServices.js";
+import OrderServices from "../services/OrderServices.js";
 import { ref } from "vue";
 import Loading from "../components/Loading.vue";
 import LeftNavbar from "../components/LeftNavbar.vue";
@@ -17,7 +18,8 @@ const snackbar = ref({
   color: "",
   text: "",
 });
-const chartData = ref([])
+const lastWeekChartData = ref([])
+const orders = ref([])
 onMounted(async () => {
   user.value = JSON.parse(localStorage.getItem("user"));
     if(!user.value) {
@@ -25,6 +27,7 @@ onMounted(async () => {
   }
   await getDashboard();
   await getLastWeekReport();
+  await getMyOrders();
   isLoading.value = false;
 });
 
@@ -47,16 +50,28 @@ async function getLastWeekReport() {
     });
 }
 
+async function getMyOrders() {
+    var type = user.value.role == 3 ? "my-orders" : "placed"
+    await OrderServices.getOrders(type,user.value.id)
+    .then((res) => {
+      orders.value = res.data;
+      actualResponse.value = res.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
 const generateLastWeekChart = (data) =>{
-    const labels= data.map((item) => item.date);
-    const orders = data.map((item) => item.delivered);
-    chartData.value = {
-    labels: labels,
+    const lastWeekLabels= data.map((item) => item.date);
+    const lastWeekDeliveredOrders = data.map((item) => item.delivered);
+    lastWeekChartData.value = {
+    labels: lastWeekLabels,
     datasets: [
         {
-        label: 'Delivered Orders for last week',
-        backgroundColor: '#e8b200',
-        data: orders
+        label: 'Last Week Delivered Orders',
+        backgroundColor: '#f87979',
+        data: lastWeekDeliveredOrders
         }
     ]
     }
@@ -76,7 +91,7 @@ const generateLastWeekChart = (data) =>{
     <div class="col-md-12 container elevation-4 dashboard" v-else-if="dashboard">
         <div class="row">
             <div class="col-6">
-                <Linechart :chartData="chartData" style="width:500px;height:500px;" />
+                <Linechart :chartData="lastWeekChartData" style="width:500px;height:500px;" />
             </div>
             <div style="display:flex;justify-content:space-around;">
              <div class="col-6 static">
@@ -121,6 +136,10 @@ const generateLastWeekChart = (data) =>{
                 <div class="dashboard-static-data">
                      <p> Total Customers </p>
                     <h4> {{ dashboard.customers  }} </h4> 
+                </div>
+                <div class="dashboard-static-data">
+                     <p> My Orders </p>
+                    <h4> {{ orders.length  }} </h4> 
                 </div>
             </div>          
             </div>
